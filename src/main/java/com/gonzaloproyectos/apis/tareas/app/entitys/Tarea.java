@@ -12,7 +12,7 @@ public abstract class Tarea {
     private Date fechaCreacion;
     private Date fechaVencimiento;
     private Boolean estado;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_asignado")
     @JsonIgnore
     private Usuario usuarioAsignado;

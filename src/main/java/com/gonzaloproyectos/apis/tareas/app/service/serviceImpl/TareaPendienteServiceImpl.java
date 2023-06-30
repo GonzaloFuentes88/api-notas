@@ -5,6 +5,7 @@ import com.gonzaloproyectos.apis.tareas.app.entitys.TareaPendiente;
 import com.gonzaloproyectos.apis.tareas.app.service.ITareaPendienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class TareaPendienteServiceImpl implements ITareaPendienteService {
     ITareaPendienteDao tareaPendienteDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<TareaPendiente> findAll() {
         return tareaPendienteDao.findAll();
     }

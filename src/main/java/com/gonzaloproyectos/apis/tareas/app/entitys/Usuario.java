@@ -17,14 +17,12 @@ public class Usuario extends Persona implements Serializable {
     private String password;
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
     @OneToMany(mappedBy = "usuarioAsignado",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<TareaRealizada> tareasRealizadas;
     @OneToMany(mappedBy = "usuarioAsignado",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<TareaPendiente> tareasPendientes;
 
     public Usuario() {

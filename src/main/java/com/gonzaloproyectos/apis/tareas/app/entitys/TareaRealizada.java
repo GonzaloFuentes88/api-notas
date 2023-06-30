@@ -20,7 +20,7 @@ public class TareaRealizada extends Tarea implements Serializable {
     @CollectionTable(name = "comentarios_tarea_realizada")
     @ElementCollection
     @Column(name = "comentario")
-    private List<String> comentarios;
+    private List<Comentario> comentarios;
 
     @Column(name = "fecha_finalizacion")
     private Date fechaFinalizacion;
@@ -30,11 +30,13 @@ public class TareaRealizada extends Tarea implements Serializable {
         this.setFechaVencimiento(new Date());
         this.setFechaCreacion(new Date());
     }
-    @PrePersist
-    public void prePersist(){
-        comentarios = new ArrayList<String>();
-    }
 
+    public void addAllComentarios(List<Comentario> comentarios){
+        for (Comentario c:comentarios) {
+            c.setTareaRealizada(this);
+            this.comentarios.add(c);
+        }
+    }
 
     public Long getId() {
         return id;
@@ -44,11 +46,11 @@ public class TareaRealizada extends Tarea implements Serializable {
         this.id = id;
     }
 
-    public List<String> getComentarios() {
+    public List<Comentario> getComentarios() {
         return comentarios;
     }
 
-    public void setComentarios(List<String> comentarios) {
+    public void setComentarios(List<Comentario> comentarios) {
         this.comentarios = comentarios;
     }
 

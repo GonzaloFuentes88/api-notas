@@ -1,11 +1,13 @@
-package com.gonzaloproyectos.apis.tareas.app.controller;
+package com.gonzaloproyectos.apis.tareas.app.controller.usuarios;
 
 import com.gonzaloproyectos.apis.tareas.app.Dto.LoginDTO;
 import com.gonzaloproyectos.apis.tareas.app.Dto.RegisterDTO;
 import com.gonzaloproyectos.apis.tareas.app.Dto.UsuarioDTO;
 import com.gonzaloproyectos.apis.tareas.app.entitys.Usuario;
 import com.gonzaloproyectos.apis.tareas.app.service.IUsuarioService;
+import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,13 +25,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuarios/{id}")
-    public Usuario obtenerUno(@PathVariable(name = "id") Long id)
+    public ResponseEntity<Usuario> obtenerUno(@PathVariable(name = "id") Long id)
     {
         Usuario usuario = null;
         if(id > 0){
             usuario = usuarioService.findOne(id);
         }
-        return usuario;
+        return ResponseEntity.ok(usuario);
     }
 
     @PostMapping("/usuarios")
@@ -47,15 +49,7 @@ public class UsuarioController {
             usuarioService.delete(id);
     }
 
-    @PostMapping("/usuarios/login")
-    public Usuario login(@RequestBody LoginDTO loginDTO)
-    {
-        Usuario usuarioActual = null;
-        if(loginDTO != null){
-             usuarioActual = usuarioService.loginUser(loginDTO);
-        }
-        return usuarioActual;
-    }
+
 
 
 

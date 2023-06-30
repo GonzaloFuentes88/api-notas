@@ -10,6 +10,7 @@ import com.gonzaloproyectos.apis.tareas.app.service.IRoleService;
 import com.gonzaloproyectos.apis.tareas.app.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,21 +24,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private IRoleService roleService;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Usuario> findAll() {
         return IUsuarioDao.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Usuario findOne(Long id) {
         return IUsuarioDao.findById(id).orElse(null);
     }
 
     @Override
+    @Transactional()
     public void delete(Long id) {
         IUsuarioDao.deleteById(id);
     }
 
     @Override
+    @Transactional()
     public Usuario registerUser(RegisterDTO registerDTO) {
         Usuario user = new Usuario();
         Role role = roleService.findOne(registerDTO.getIdRole());
@@ -59,6 +64,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+    @Transactional()
     public Usuario updateUser(UsuarioDTO usuarioDTO, Long id) {
         Usuario user = IUsuarioDao.findById(id).orElse(null);
 
@@ -67,11 +73,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
         }
         user.setUsername(usuarioDTO.getUsername());
         user.setEmail(usuarioDTO.getEmail());
+        user.setPassword(usuarioDTO.getPassword());
         user.setRole(roleService.findOne(usuarioDTO.getIdRole()));
         return IUsuarioDao.save(user);
     }
 
     @Override
+    @Transactional()
     public Usuario loginUser(LoginDTO loginDTO) {
         return IUsuarioDao.findByUsernameAndPassword(loginDTO.getUsername(),loginDTO.getPassword()).orElse(null);
     }
